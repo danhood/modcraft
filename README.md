@@ -174,9 +174,6 @@ public class SharpSnowballs {
         }
 
         if (!level.isClientSide) {
-            PrimedTnt tnt = EntityType.TNT.create(level);
-            tnt.setFuse(80);
-
             Arrow arrow = EntityType.ARROW.create(level);
             arrow.moveTo(snowball.position());
             arrow.setDeltaMovement(snowball.getDeltaMovement());
