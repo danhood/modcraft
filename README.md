@@ -4,7 +4,7 @@ Instructions for a lab on Minecraft Modding
 
 ## Setup
 
-1. Let's open a shell on Windows, Start → Search and type `powershell`
+1. Let's open a shell on Windows, press the Windows key, then type `powershell`
 2. This will open a blue console that we're going to issue commands in
 3. Let's first type `cd` a space, and then let's drag the folder called `modding` at the top right of the Desktop and
    drop in the shell - this will input text that's the location of that folder, then press `Enter`
