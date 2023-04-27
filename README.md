@@ -42,22 +42,17 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
 public class ChatItems {
 
-    // listen to the chat
     @SubscribeEvent
     public static void giveItems(ServerChatEvent event) {
 
-        // get the message as text
         String message = event.getMessage();
-
-        // get the play's inventory
         Inventory inventory = event.getPlayer().getInventory();
 
-        // if message contains 'potato', give us potatoes
         if (message.contains("potato")) {
             inventory.add(new ItemStack(Items.POTATO, 64));
         }
 
-        // what more can we do?
+
     }
 
 }
@@ -88,15 +83,16 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
 public class CreeperSpawnAlert {
 
-	@SubscribeEvent
-	public static void sendAlert(EntityJoinLevelEvent event) {
+    @SubscribeEvent
+    public static void sendAlert(EntityJoinLevelEvent event) {
 
-		if (event.getEntity() instanceof Creeper && event.getLevel().isClientSide) {
-			for (Player player : event.getLevel().players()) {
-				player.sendSystemMessage(Component.literal(ChatFormatting.GREEN + "A creeper has spawned!"));
-			}
-		}
-	}
+        if (event.getEntity() instanceof Creeper && event.getLevel().isClientSide) {
+            for (Player player : event.getLevel().players()) {
+                player.sendSystemMessage(Component.literal(ChatFormatting.GREEN + "A creeper has spawned!"));
+            }
+        }
+		
+    }
 
 }
 ```
@@ -125,18 +121,18 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
 public class DragonSpawner {
 
-	@SubscribeEvent
-	public static void spawnDragon(BlockEvent.EntityPlaceEvent event) {
+    @SubscribeEvent
+    public static void spawnDragon(BlockEvent.EntityPlaceEvent event) {
 
-		if (event.getPlacedBlock().getBlock() == Blocks.DRAGON_EGG) {
-			event.getLevel().removeBlock(event.getPos(), false); // false = no flags
-			EnderDragon dragon = EntityType.ENDER_DRAGON.create(event.getEntity().getLevel());
-			dragon.moveTo(event.getPos(), 0, 0);
-			dragon.getPhaseManager().setPhase(EnderDragonPhase.TAKEOFF);
-			event.getLevel().addFreshEntity(dragon);
-		}
+        if (event.getPlacedBlock().getBlock() == Blocks.DRAGON_EGG) {
+            event.getLevel().removeBlock(event.getPos(), false); // false = no flags
+            EnderDragon dragon = EntityType.ENDER_DRAGON.create(event.getEntity().getLevel());
+            dragon.moveTo(event.getPos(), 0, 0);
+            dragon.getPhaseManager().setPhase(EnderDragonPhase.TAKEOFF);
+            event.getLevel().addFreshEntity(dragon);
+        }
 
-	}
+    }
 
 }
 ```
@@ -167,6 +163,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
 public class SharpSnowballs {
+
     @SubscribeEvent
     public static void replaceSnowballWithArrow(EntityJoinLevelEvent event) {
         Entity snowball = event.getEntity();
@@ -177,6 +174,9 @@ public class SharpSnowballs {
         }
 
         if (!level.isClientSide) {
+            PrimedTnt tnt = EntityType.TNT.create(level);
+            tnt.setFuse(80);
+
             Arrow arrow = EntityType.ARROW.create(level);
             arrow.moveTo(snowball.position());
             arrow.setDeltaMovement(snowball.getDeltaMovement());
@@ -185,6 +185,7 @@ public class SharpSnowballs {
 
         event.setCanceled(true);
     }
+
 }
 ```
 
@@ -203,10 +204,10 @@ tnt.setFuse(80);
 
 ## Thanks
 
-- Thanks to the [CNCF's Kid’s Day Minecraft Modding Post][cncf] for inspiring us to do this at our company's Take Your
-  Daughters and Sons to Work Day
+- Thanks to the [CNCF's Kid’s Day Minecraft Modding Post][cncf] for inspiring us to do this at our company's [Take Our
+  Daughters and Sons to Work Day][todastwd]
 - An unbelievable amount of thanks goes out to [Devoxx4Kids][d4k] for their incredible [Minecraft Modding using
-  Forge][d4k-modding] guide which this is borrowed from
+  Forge][d4k-modding] guide which this is based on
 
 ## Resources
 
@@ -220,3 +221,4 @@ This lab uses specifically the following versions of downloads to alleviate any 
   https://www.cncf.io/blog/2023/03/22/cloud-native-youth-encouraging-the-next-generation-of-technologies-with-kids-day/
 [d4k]: https://www.devoxx4kids.org/
 [d4k-modding]: https://github.com/devoxx4kids/materials/blob/master/workshops/minecraft/readme-forge.asciidoc
+[todastwd]: https://daughtersandsonstowork.org/
